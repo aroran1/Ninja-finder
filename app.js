@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes/api');
+const mongoose = require('mongoose');
 
 // set up express app
 const app = express();
@@ -11,6 +12,10 @@ const app = express();
 //   res.send({name:'Josh'});
 // });
 
+// Connect to mongoDB
+// if 'ninjago' doesnt exist in the databse it will be automatically created in the database
+mongoose.connect('mongodb://localhost/ninjago');
+mongoose.Promise = global.Promise // re-assigned mongoose Promise to node global promise as mongoose promise has been deprecated
 
 // App body parser
 // Body parser need to go before router

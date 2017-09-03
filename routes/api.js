@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const NinjaModel = require('../models/ninjaModel');
 
 // get the list of ninjas from the database
 // actually accessing '/api/ninjas' but no need to write '/api'
@@ -12,7 +13,16 @@ router.get('/ninjas', (req, res) => {
 
 // add a new ninja to the database
 router.post('/ninjas', (req, res) => {
-  console.log(req.body);
+  // mongo method
+  // var ninja = new NinjaModel(req.body);
+  // ninja.save(); // saving it in the ninja collection created in model
+
+  // You can do both above with below mongoose method
+  NinjaModel.create(req.body)  // returns a promise - creates a new instance of the ninjaModel using the req.body data and save it in DB
+  .then((ninja) => {            // attaching async callback function to then - wait till action is complete when res comes back
+    console.log(ninja);
+    res.send(ninja);           // sending data back to confirm it went okay!
+  });
   res.send({
     type: 'POST',
     name: req.body.name,
