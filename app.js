@@ -19,6 +19,10 @@ mongoose.connect('mongodb://localhost/ninjago', {useMongoClient: true});
 mongoose.Promise = global.Promise // re-assigned mongoose Promise to node global promise as mongoose promise has been deprecated
 
 
+// attach static files
+app.use(express.static('public'));
+
+
 // App Middleware -  body parser
 // Body parser need to go before router
 app.use(bodyParser.json());
