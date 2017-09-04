@@ -7,7 +7,23 @@ const NinjaModel = require('../models/ninjaModel');
 // but just '/ninjas' as they will be prefixed with '/api'
 // where routes are being called
 router.get('/ninjas', (req, res, next) => {
-  res.send({type: 'GET'});
+  // NinjaModel.find({})
+  // .then(() => {
+  //   res.send(ninja);
+  // });
+  NinjaModel.geoNear(
+    {
+      type: "Point",
+      coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
+    },
+    {
+      maxDistance: 100000,
+      spherical: true
+    }
+  )
+  .then((ninjas) => {
+    res.send(ninjas);
+  });
 });
 
 
